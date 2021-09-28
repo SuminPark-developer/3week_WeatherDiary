@@ -13,6 +13,13 @@
 		7400128B26FB1A40008B92D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7400128926FB1A40008B92D7 /* Main.storyboard */; };
 		7400128D26FB1A41008B92D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7400128C26FB1A41008B92D7 /* Assets.xcassets */; };
 		7400129026FB1A41008B92D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7400128E26FB1A41008B92D7 /* LaunchScreen.storyboard */; };
+		740012A226FB6987008B92D7 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740012A126FB6987008B92D7 /* HomeVC.swift */; };
+		740AF45A26FCB08500533566 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740AF45826FCB08500533566 /* DiaryTableViewCell.swift */; };
+		740AF45B26FCB08500533566 /* DiaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 740AF45926FCB08500533566 /* DiaryTableViewCell.xib */; };
+		740AF45E26FCB88800533566 /* DiaryDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740AF45D26FCB88800533566 /* DiaryDetailVC.swift */; };
+		74E60D832701972500C575E4 /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E60D812701972500C575E4 /* Diary+CoreDataClass.swift */; };
+		74E60D842701972500C575E4 /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E60D822701972500C575E4 /* Diary+CoreDataProperties.swift */; };
+		74F70AF026FCC1F4000672EB /* DiaryCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 74F70AEE26FCC1F4000672EB /* DiaryCoreData.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +31,13 @@
 		7400128C26FB1A41008B92D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7400128F26FB1A41008B92D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7400129126FB1A41008B92D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		740012A126FB6987008B92D7 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		740AF45826FCB08500533566 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
+		740AF45926FCB08500533566 /* DiaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiaryTableViewCell.xib; sourceTree = "<group>"; };
+		740AF45D26FCB88800533566 /* DiaryDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailVC.swift; sourceTree = "<group>"; };
+		74E60D812701972500C575E4 /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
+		74E60D822701972500C575E4 /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		74F70AEF26FCC1F4000672EB /* DiaryCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiaryCoreData.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +54,8 @@
 		7400127726FB1A3F008B92D7 = {
 			isa = PBXGroup;
 			children = (
+				74E60D812701972500C575E4 /* Diary+CoreDataClass.swift */,
+				74E60D822701972500C575E4 /* Diary+CoreDataProperties.swift */,
 				7400128226FB1A3F008B92D7 /* 3week_WeatherDiary */,
 				7400128126FB1A3F008B92D7 /* Products */,
 			);
@@ -63,6 +79,11 @@
 				7400128C26FB1A41008B92D7 /* Assets.xcassets */,
 				7400128E26FB1A41008B92D7 /* LaunchScreen.storyboard */,
 				7400129126FB1A41008B92D7 /* Info.plist */,
+				740012A126FB6987008B92D7 /* HomeVC.swift */,
+				740AF45826FCB08500533566 /* DiaryTableViewCell.swift */,
+				740AF45926FCB08500533566 /* DiaryTableViewCell.xib */,
+				740AF45D26FCB88800533566 /* DiaryDetailVC.swift */,
+				74F70AEE26FCC1F4000672EB /* DiaryCoreData.xcdatamodeld */,
 			);
 			path = 3week_WeatherDiary;
 			sourceTree = "<group>";
@@ -127,6 +148,7 @@
 				7400129026FB1A41008B92D7 /* LaunchScreen.storyboard in Resources */,
 				7400128D26FB1A41008B92D7 /* Assets.xcassets in Resources */,
 				7400128B26FB1A40008B92D7 /* Main.storyboard in Resources */,
+				740AF45B26FCB08500533566 /* DiaryTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +160,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				7400128826FB1A40008B92D7 /* ViewController.swift in Sources */,
+				74E60D832701972500C575E4 /* Diary+CoreDataClass.swift in Sources */,
+				740012A226FB6987008B92D7 /* HomeVC.swift in Sources */,
 				7400128426FB1A3F008B92D7 /* AppDelegate.swift in Sources */,
+				740AF45E26FCB88800533566 /* DiaryDetailVC.swift in Sources */,
 				7400128626FB1A40008B92D7 /* SceneDelegate.swift in Sources */,
+				74E60D842701972500C575E4 /* Diary+CoreDataProperties.swift in Sources */,
+				74F70AF026FCC1F4000672EB /* DiaryCoreData.xcdatamodeld in Sources */,
+				740AF45A26FCB08500533566 /* DiaryTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +369,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		74F70AEE26FCC1F4000672EB /* DiaryCoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				74F70AEF26FCC1F4000672EB /* DiaryCoreData.xcdatamodel */,
+			);
+			currentVersion = 74F70AEF26FCC1F4000672EB /* DiaryCoreData.xcdatamodel */;
+			path = DiaryCoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 7400127826FB1A3F008B92D7 /* Project object */;
 }
