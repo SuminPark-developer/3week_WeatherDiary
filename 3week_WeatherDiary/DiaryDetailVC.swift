@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 import PhotosUI
 
 class DiaryDetailVC: UIViewController, UINavigationControllerDelegate {
@@ -19,11 +20,19 @@ class DiaryDetailVC: UIViewController, UINavigationControllerDelegate {
     var imagePicker = UIImagePickerController()
     var arrPhotos: [Diary]?
     
+    // api 호출을 통해 받아온 데이터를 저장할 프로퍼티
+    var weather: Weather?
+    var main: Main?
+    var name: String?
+    // 상단 날씨 아이콘 & 현재 온도
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var tempLabel: UILabel!
+    
     var selectedDiary: Diary? = nil
     
-    let locationManager = CLLocationManager()
+    let locationManager: CLLocationManager = CLLocationManager() // 앱에서 위치 관련 이벤트 전달을 시작하고 중지하는 데 사용하는 개체
+    var currentLocation: CLLocationCoordinate2D!
     let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus() // 사진 라이브러리의 승인상태를 체크하는 값
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,15 +55,33 @@ class DiaryDetailVC: UIViewController, UINavigationControllerDelegate {
 
     }
     
+    // MARK: - 상단 현재 날씨 아이콘 & 현재 온도 세팅.
+    private func setWeatherUI() {
+        let url = URL(string: "https://openweathermap.org/img/wn/\(self.weather?.icon ?? "00")@2x.png")
+        let data = try? Data(contentsOf: url!)
+        if let data = data {
+            iconImageView.image = UIImage(data: data)
+        }
+        
+        iconImageView.layer.cornerRadius = iconImageView.frame.height / 2 // 동그랗게 설정.
+        
+        let celsiusUnit = UnitTemperature.celsius // 섭씨로 변경할 예정
+        let celsiusTemp = celsiusUnit.converter.value(fromBaseUnitValue: main!.temp) // 화씨를 섭씨로 변경
+        tempLabel.text = String(format: "%.2f", celsiusTemp) + " ℃"
+    }
+    
     // MARK: - 위치 권한 상태 확인.
     func checkLocationAuth() {
         switch locationManager.authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
             print("위치 접근 허가 됨.")
-            break
+            locationManager.delegate = self
+            locationManagerDidChangeAuthorization(locationManager)
         case .restricted, .notDetermined: // 아직 결정하지 않은 상태: 시스템 팝업 호출
             print("위치 접근 허가 필요함.")
-            locationManager.requestWhenInUseAuthorization()
+            locationManager.requestWhenInUseAuthorization() // 허가 요청 창 띄우기.
+            locationManager.delegate = self
+            locationManagerDidChangeAuthorization(locationManager)
         case .denied: // 거부인 상태: 설정 창으로 가서 권한을 변경하도록 유도
             setLocationAuthAlertAction()
         @unknown default:
@@ -199,6 +226,34 @@ extension DiaryDetailVC: UIImagePickerControllerDelegate {
         dismiss(animated: true, completion: nil)
         if let img = info[.originalImage] as? UIImage {
             self.imageView.image = img
+        }
+    }
+}
+
+// MARK: - 현재 권한 상태 확인 및 현재 위치(경도, 위도) => 데이터 패치
+extension DiaryDetailVC: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if manager.authorizationStatus == .authorizedWhenInUse {
+            
+            currentLocation = locationManager.location?.coordinate
+            print(currentLocation.latitude) // 위도
+            print(currentLocation.longitude) // 경도
+            
+            // data fetch
+            WeatherService(currentLocation.latitude, currentLocation.longitude).getWeather { result in
+                switch result {
+                case .success(let weatherResponse):
+                    DispatchQueue.main.async {
+                        self.weather = weatherResponse.weather.first
+                        self.main = weatherResponse.main
+                        self.name = weatherResponse.name
+                        self.setWeatherUI()
+                    }
+                case .failure(_ ):
+                    print("error")
+                }
+            }
+            
         }
     }
 }
