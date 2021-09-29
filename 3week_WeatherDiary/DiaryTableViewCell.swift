@@ -16,6 +16,13 @@ class DiaryTableViewCell: UITableViewCell {
     @IBOutlet weak var uiWeatherImage: UIImageView!
     @IBOutlet weak var uiTemperature: UILabel!
     
+    // 재활용 셀 중첩오류 해결법 : prepareForReuse() 사용 - https://sihyungyou.github.io/iOS-dequeueReusableCell/
+    override func prepareForReuse() {
+        uiImage.image = nil
+        uiImage.image = UIImage(named: "profileImage")
+        uiWeatherImage.image = nil
+    }
+    
     // cell이 렌더링(=그릴 때)될 때
     override func awakeFromNib() {
         super.awakeFromNib()
