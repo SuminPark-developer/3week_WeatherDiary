@@ -13,6 +13,9 @@ class DiaryTableViewCell: UITableViewCell {
     @IBOutlet weak var uiContents: UILabel!
     @IBOutlet weak var uiImage: UIImageView!
     
+    @IBOutlet weak var uiWeatherImage: UIImageView!
+    @IBOutlet weak var uiTemperature: UILabel!
+    
     // cell이 렌더링(=그릴 때)될 때
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -2,7 +2,7 @@
 //  Diary+CoreDataClass.swift
 //  3week_WeatherDiary
 //
-//  Created by sumin on 2021/09/27.
+//  Created by sumin on 2021/09/29.
 //
 //
 

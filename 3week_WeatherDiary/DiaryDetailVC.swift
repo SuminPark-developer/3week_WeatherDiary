@@ -37,22 +37,33 @@ class DiaryDetailVC: UIViewController, UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        openImageBtn.layer.borderWidth = 1
-        openImageBtn.layer.borderColor = UIColor.brown.cgColor
+        openImageBtn.layer.borderWidth = 1.5
+        openImageBtn.layer.borderColor = #colorLiteral(red: 0.9254901961, green: 0.9254901961, blue: 0.8901960784, alpha: 1)
         openImageBtn.layer.cornerRadius = 10
         
-        if selectedDiary != nil {
+        contentsTV.layer.cornerRadius = 10
+        
+        
+        if selectedDiary != nil { // 이미 작성했던 일기 편집이면,
             titleTF.text = selectedDiary?.title
             contentsTV.text = selectedDiary?.contents
-            
-            if ((selectedDiary?.image) != nil) { // 이미지 데이터가 있을 때에만,
-                imageView.image = UIImage(data: (selectedDiary?.image)!) // 이미지 표시
+            tempLabel.text = selectedDiary?.temperature
+            if ((selectedDiary?.weatherImage) != nil) { // 상단 - 날씨 아이콘 이미지 데이터가 있을 때에만,
+                iconImageView.image = UIImage(data: (selectedDiary?.weatherImage)!) // 날씨 아이콘 표시
             }
             
+            if ((selectedDiary?.image) != nil) { // 하단 - (사진첩) 이미지 데이터가 있을 때에만,
+                imageView.image = UIImage(data: (selectedDiary?.image)!) // (사진첩) 이미지 표시
+            }
+        }
+        else { // 새로운 일기 작성이면,
+            checkLocationAuth() // 위치 권한 상태 확인 함수 호출.
         }
         
-        checkLocationAuth() // 위치 권한 상태 확인 함수 호출.
-
+        iconImageView.layer.borderWidth = 1.5
+        iconImageView.layer.borderColor = UIColor.systemGray6.cgColor
+        iconImageView.layer.cornerRadius = iconImageView.frame.height / 2 // 동그랗게 설정.
+        
     }
     
     // MARK: - 상단 현재 날씨 아이콘 & 현재 온도 세팅.
@@ -63,10 +74,8 @@ class DiaryDetailVC: UIViewController, UINavigationControllerDelegate {
             iconImageView.image = UIImage(data: data)
         }
         
-        iconImageView.layer.cornerRadius = iconImageView.frame.height / 2 // 동그랗게 설정.
-        
         let celsiusUnit = UnitTemperature.celsius // 섭씨로 변경할 예정
-        let celsiusTemp = celsiusUnit.converter.value(fromBaseUnitValue: main!.temp) // 화씨를 섭씨로 변경
+        let celsiusTemp = celsiusUnit.converter.value(fromBaseUnitValue: main!.temp) // 켈빈을 섭씨로 변경
         tempLabel.text = String(format: "%.2f", celsiusTemp) + " ℃"
     }
     
@@ -138,8 +147,6 @@ class DiaryDetailVC: UIViewController, UINavigationControllerDelegate {
         @unknown default:
             return
         }
-        
-        
     }
     
     // MARK: - 저장 버튼 클릭 시,
@@ -150,10 +157,16 @@ class DiaryDetailVC: UIViewController, UINavigationControllerDelegate {
         if selectedDiary == nil { // 새로운 일기 작성
             let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context)
             let newDiary = Diary(entity: entity!, insertInto: context)
+            // 일기 id, 제목, 내용 저장.
             newDiary.id = diaryList.count as NSNumber
             newDiary.title = titleTF.text
             newDiary.contents = contentsTV.text
-//            newDiary.image = self.imageView.image?.pngData()
+            // 상단 - 날씨 아이콘 & 현재 온도 저장.
+            newDiary.temperature = tempLabel.text
+            newDiary.weatherImage = self.iconImageView.image?.jpegData(compressionQuality: 1.0)
+            
+            // 하단 - 사용자가 사진첩에서 고른 이미지 저장.
+            // newDiary.image = self.imageView.image?.pngData()
             newDiary.image = self.imageView.image?.jpegData(compressionQuality: 1.0)
             
             do {
@@ -174,6 +187,7 @@ class DiaryDetailVC: UIViewController, UINavigationControllerDelegate {
                     if diary == selectedDiary {
                         diary.title = titleTF.text
                         diary.contents = contentsTV.text
+                        
 //                        diary.image = self.imageView.image?.pngData() // 이미지 가끔 돌아가는 이유 - https://stackoverflow.com/questions/10245649/iphone-uiimage-loaded-from-core-data-is-rotated-counterclockwise-by-90-degrees
                         diary.image = self.imageView.image?.jpegData(compressionQuality: 1.0) // png -> jpeg로 바꾸니 해결.
                         try context.save()

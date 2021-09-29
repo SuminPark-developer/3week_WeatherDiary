@@ -82,14 +82,15 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         let diaryData: Diary = nonDeleteDiary()[indexPath.row]
         cell.uiTitle.text = diaryData.title
         cell.uiContents.text = diaryData.contents
+        cell.uiTemperature.text = diaryData.temperature
+        
+        if diaryData.weatherImage != nil {
+            cell.uiWeatherImage.image = UIImage(data: diaryData.weatherImage!)
+        }
         
         if diaryData.image != nil {
             cell.uiImage.image = UIImage(data: diaryData.image!)
         }
-        
-//        if ((selectedDiary?.image) != nil) { // 이미지 데이터가 있을 때에만,
-//            imageView.image = UIImage(data: (selectedDiary?.image)!) // 이미지 표시
-//        }
         
         return cell
     }
